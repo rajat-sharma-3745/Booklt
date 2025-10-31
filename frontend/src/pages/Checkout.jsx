@@ -52,24 +52,23 @@ const Checkout = () => {
   }
 
   useEffect(() => {
-    
     if (!Object.keys(bookingDetails).length) {
       navigate("/");
     }
   }, []);
   return (
-    <div className="min-h-screen px-4 md:px-10 lg:px-20 xl:px-32 py-6">
+    <div className="min-h-screen px-4 md:px-10 lg:px-20 xl:px-32 py-6 sm:px-6">
       <button
-        onClick={() => navigate(-1)}
-        className=" cursor-pointer flex items-center gap-2 text-gray-700 mb-4"
+        onClick={() => {navigate(-1);scrollTo(0,0)}}
+        className="cursor-pointer flex items-center gap-2 text-gray-700 mb-6"
       >
         <ArrowLeft size={20} />
         <span>Details</span>
       </button>
 
-      <div className="grid lg:grid-cols-3 gap-6 ">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 bg-[#F5F5F5] rounded-xl p-5 space-y-5 h-max shadow-md">
-          <div className="flex gap-2 sm:flex-nowrap flex-wrap ">
+          <div className="flex flex-col sm:flex-row gap-4  ">
             <div className="w-full">
               <label className="text-sm text-gray-600">Full name</label>
               <input
@@ -93,7 +92,7 @@ const Checkout = () => {
             </div>
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-4">
             <input
               type="text"
               value={code}

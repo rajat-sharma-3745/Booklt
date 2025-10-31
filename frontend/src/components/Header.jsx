@@ -15,7 +15,7 @@ const Header = ({search,setSearch}) => {
   </Link>
 
  
-  <div className="flex items-center gap-2 md:gap-4 sm:w-full sm:max-w-[350px] md:max-w-[400px] lg:max-w-[444px]">
+  <div className="flex items-center gap-2 md:gap-4 w-56 sm:w-full sm:max-w-[350px] md:max-w-[400px] lg:max-w-[444px]">
     <input
       className="w-full py-2 md:py-3.5 px-3 md:px-4 bg-[#ededed] rounded outline-none placeholder-[#727272] text-sm"
       type="text"
