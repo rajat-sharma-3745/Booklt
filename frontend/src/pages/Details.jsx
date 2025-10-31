@@ -20,7 +20,9 @@ const Details = () => {
     bookingDetails?.slotId || {}
   );
   
-
+  useEffect(() => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}, []);
   useEffect(() => {
     const fetchExperience = async () => {
       const { data } = await axiosInstance.get(

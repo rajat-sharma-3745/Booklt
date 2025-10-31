@@ -10,7 +10,7 @@ const Header = ({search,setSearch}) => {
     <img 
       src={logo} 
       alt="logo" 
-      className="w-16 h-10 sm:w-24 sm:h-12 md:w-28 md:h-14 object-contain"
+      className="w-16 h-12 sm:w-24 sm:h-12 md:w-28 md:h-14 object-contain"
     />
   </Link>
 
