@@ -1,8 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
+import { useAppContext } from "../context/AppContext";
 
-const Header = ({search,setSearch}) => {
+const Header = () => {
+  const {handleSearch,search,setSearch,experiences,setFilteredExperiences} = useAppContext()
+  const handleInputChange = (e) => {
+  const value = e.target.value;
+  setSearch(value);
+
+  if (value === "") {
+    setFilteredExperiences(experiences);
+  }
+};
   return (
   <nav className="flex items-center justify-between px-4 md:px-10 lg:px-24 xl:px-32 h-16 md:h-20 py-4 shadow-sm bg-[#f9f9f9]">
 
@@ -20,10 +30,10 @@ const Header = ({search,setSearch}) => {
       className="w-full py-2 md:py-3.5 px-3 md:px-4 bg-[#ededed] rounded outline-none placeholder-[#727272] text-sm"
       type="text"
       value={search}
-      onChange={(e)=>setSearch(e.target.value)}
+      onChange={handleInputChange}
       placeholder="Search experiences"
     />
-    <button className="px-3 md:px-5 py-2 md:py-3 bg-[#FFD643] rounded text-black  text-sm md:text-base">
+    <button type="submit" onClick={handleSearch} className="cursor-pointer px-3 md:px-5 py-2 md:py-3 bg-[#FFD643] rounded text-black  text-sm md:text-base">
       Search
     </button>
   </div>

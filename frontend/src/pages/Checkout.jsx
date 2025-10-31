@@ -13,6 +13,7 @@ const Checkout = () => {
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
   const [discount, setDiscount] = useState(0);
+  const [loading,setLoading] = useState(false)
   const navigate = useNavigate();
   let codeCount = useRef(0);
   const validatePromo = async () => {
@@ -22,6 +23,7 @@ const Checkout = () => {
         toast.info("Promo code can be applied only once");
         return;
       }
+      setLoading(true)
       const { data } = await axiosInstance.post(API_PATHS.PROMO.VALIDATE, {
         subTotal: bookingDetails?.subtotal,
         code,
@@ -38,6 +40,8 @@ const Checkout = () => {
       setBookingDetails((prev) => ({ ...prev, subtotal, tax, total }));
     } catch (error) {
       toast.warning(error?.response?.data?.message);
+    }finally{
+      setLoading(false);
     }
   };
   // booking api call
@@ -188,7 +192,7 @@ const Checkout = () => {
             disabled={!accept || !name || !email}
             className="w-full py-3 bg-[#FFD643] rounded text-black disabled:bg-gray-200 disabled:text-gray-500  font-medium disabled:cursor-not-allowed cursor-pointer transition-all duration-300"
           >
-            Pay and Confirm
+           {loading?'Processing': 'Pay and Confirm'}
           </button>
         </div>
       </div>
