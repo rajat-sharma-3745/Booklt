@@ -12,7 +12,7 @@ const Checkout = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
-  const [discount,setDiscount]=useState(0)
+  const [discount, setDiscount] = useState(0);
   const navigate = useNavigate();
   let codeCount = useRef(0);
   const validatePromo = async () => {
@@ -31,25 +31,35 @@ const Checkout = () => {
       codeCount.current++;
       const subtotal = data.newTotal;
 
-      setDiscount(data?.discount)
+      setDiscount(data?.discount);
       const taxRate = 0.18;
       const tax = Math.floor(subtotal * taxRate).toFixed(2);
       const total = subtotal + Number(tax);
-      setBookingDetails((prev) => ({ ...prev, subtotal, tax, total}));
+      setBookingDetails((prev) => ({ ...prev, subtotal, tax, total }));
     } catch (error) {
       toast.warning(error?.response?.data?.message);
     }
   };
   // booking api call
-  const createBooking = async()=>{
+  const createBooking = async () => {
     try {
-      const {data} = await axiosInstance.post(API_PATHS.BOOKING.CREATE,{...bookingDetails,email,name,discount,promoCode:code});
+      if (!accept || !name || !email) {
+        toast.warning("Incomplete Details");
+        return;
+      }
+      const { data } = await axiosInstance.post(API_PATHS.BOOKING.CREATE, {
+        ...bookingDetails,
+        email,
+        name,
+        discount,
+        promoCode: code,
+      });
       toast.success(data?.message);
-      navigate('/result',{state:{bookingId:data?.booking?._id}})
+      navigate("/result", { state: { bookingId: data?.booking?._id } });
     } catch (error) {
-      toast.error(error?.response?.data?.message)
+      toast.error(error?.response?.data?.message);
     }
-  }
+  };
 
   useEffect(() => {
     if (!Object.keys(bookingDetails).length) {
@@ -59,7 +69,10 @@ const Checkout = () => {
   return (
     <div className="min-h-screen px-4 md:px-10 lg:px-20 xl:px-32 py-6 sm:px-6">
       <button
-        onClick={() => {navigate(-1);scrollTo(0,0)}}
+        onClick={() => {
+          navigate(-1);
+          scrollTo(0, 0);
+        }}
         className="cursor-pointer flex items-center gap-2 text-gray-700 mb-6"
       >
         <ArrowLeft size={20} />
@@ -67,8 +80,8 @@ const Checkout = () => {
       </button>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-[#F5F5F5] rounded-xl p-5 space-y-5 h-max shadow-md">
-          <div className="flex flex-col sm:flex-row gap-4  ">
+        <div className="lg:col-span-2 bg-[#F5F5F5] rounded-xl p-5  h-max shadow-md">
+          <div className="flex flex-col sm:flex-row gap-4 mb-4 ">
             <div className="w-full">
               <label className="text-sm text-gray-600">Full name</label>
               <input
@@ -91,8 +104,15 @@ const Checkout = () => {
               />
             </div>
           </div>
+          <div className="mb-2">
+            <p className="text-xs text-gray-500 pl-1">
+              Apply{" "}
+              <span className="text-green-600 font-semibold ">'FLAT100'</span>{" "}
+              Save ₹100 right away
+            </p>
+          </div>
 
-          <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-col sm:flex-row gap-4 mb-4">
             <input
               type="text"
               value={code}
@@ -164,7 +184,7 @@ const Checkout = () => {
           </div>
 
           <button
-          onClick={createBooking}
+            onClick={createBooking}
             disabled={!accept || !name || !email}
             className="w-full py-3 bg-[#FFD643] rounded text-black disabled:bg-gray-200 disabled:text-gray-500  font-medium disabled:cursor-not-allowed cursor-pointer transition-all duration-300"
           >
